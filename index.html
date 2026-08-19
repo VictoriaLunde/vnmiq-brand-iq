@@ -1,1 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
 
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="description"
+    content="Take the VNMIQ BrandIQ Assessment to measure the intelligence, clarity, positioning, and market readiness behind your brand."
+  />
+
+  <title>BrandIQ Assessment | VNMIQ</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+
+<body>
+
+  <main class="site-shell">
+
+    <!-- =========================
+         HEADER
+    ========================== -->
+
+    <header class="site-header">
+
+      <a href="#home" class="brand-logo">
+        <span class="brand-icon"></span>
+        <span>VNMIQ</span>
+      </a>
+
+      <span class="header-label">
+        BRAND INTELLIGENCE
+      </span>
+
+    </header>
+
+
+    <!-- =========================
+         INTRO / HERO
+    ========================== -->
+
+    <section
+      id="home"
+      class="page-section active-section"
+    >
+
+      <div class="assessment-card hero-card">
+
+        <p class="eyebrow">
+          BRANDIQ™ ASSESSMENT
+        </p>
+
+        <h1>
+          How intelligent
+          is your brand?
+        </h1>
+
+        <p class="hero-copy">
+          Your brand is the foundation behind everything
+          you build.
+        </p>
+
+        <p class="body-copy">
+          BrandIQ measures whether the strategy underneath
+          your brand is strong enough to support content,
+          marketing, sales, partnerships, and go-to-market
+          growth.
+        </p>
+
+        <button
+          id="startAssessmentBtn"
+          class="btn btn-primary"
+          type="button"
+        >
+          Take the BrandIQ Assessment
+          <span>→</span>
+        </button>
+
+
+        <div class="feature-grid">
+
+          <div class="feature-card">
+            <span class="feature-number">7</span>
+
+            <div>
+              <h3>Intelligence Pillars</h3>
+
+              <p>
+                Measure the strategic foundation behind
+                your brand.
+              </p>
+            </div>
+          </div>
+
+
+          <div class="feature-card">
+            <span class="feature-number">28</span>
+
+            <div>
+              <h3>Diagnostic Questions</h3>
+
+              <p>
+                Built for creators, founders,
+                startups, and companies.
+              </p>
+            </div>
+          </div>
+
+
+          <div class="feature-card">
+            <span class="feature-number">100</span>
+
+            <div>
+              <h3>BrandIQ Score</h3>
+
+              <p>
+                Identify strengths, gaps, and
+                your best next move.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         PROFILE / LEAD CAPTURE
+    ========================== -->
+
+    <section
+      id="profileSection"
+      class="page-section hidden"
+    >
+
+      <div class="assessment-card">
+
+        <p class="eyebrow">
+          BEFORE WE BEGIN
+        </p>
+
+        <h2>
+          Tell us what
+          you're building.
+        </h2>
+
+        <p class="body-copy">
+          BrandIQ adapts parts of the assessment based
+          on the type of brand you're building.
+        </p>
+
+
+        <form id="profileForm">
+
+          <div class="form-grid">
+
+            <div class="form-group">
+
+              <label for="firstName">
+                First Name
+              </label>
+
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                autocomplete="given-name"
+                required
+              />
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="email">
+                Email
+              </label>
+
+              <input
+                type="email"
+                id="email"
+                name="email"
+                autocomplete="email"
+                required
+              />
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="brandName">
+                Brand or Company Name
+              </label>
+
+              <input
+                type="text"
+                id="brandName"
+                name="brandName"
+                required
+              />
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="website">
+                Website or Social Handle
+              </label>
+
+              <input
+                type="text"
+                id="website"
+                name="website"
+                placeholder="https:// or @handle"
+              />
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+              <label for="audienceType">
+                What are you building?
+              </label>
+
+              <select
+                id="audienceType"
+                name="audienceType"
+                required
+              >
+
+                <option value="">
+                  Select one
+                </option>
+
+                <option value="creator">
+                  Personal Brand / Creator
+                </option>
+
+                <option value="startup">
+                  Startup / Founder
+                </option>
+
+                <option value="company">
+                  Company / Established Brand
+                </option>
+
+              </select>
+
+            </div>
+
+          </div>
+
+
+          <p
+            id="profileError"
+            class="form-error hidden"
+          >
+            Please complete all required fields.
+          </p>
+
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            Start Assessment
+            <span>→</span>
+          </button>
+
+        </form>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         ASSESSMENT
+    ========================== -->
+
+    <section
+      id="assessmentSection"
+      class="page-section hidden"
+    >
+
+      <div class="assessment-card">
+
+        <!-- Progress -->
+
+        <div class="progress-header">
+
+          <span id="progressText">
+            Question 1 of 28
+          </span>
+
+          <span id="progressPercent">
+            4%
+          </span>
+
+        </div>
+
+
+        <div class="progress-track">
+
+          <div
+            id="progressBar"
+            class="progress-bar"
+          ></div>
+
+        </div>
+
+
+        <!-- Question -->
+
+        <div class="question-area">
+
+          <p
+            id="categoryLabel"
+            class="eyebrow"
+          >
+            BRAND FOUNDATION
+          </p>
+
+          <h2
+            id="questionText"
+            class="question-title"
+          >
+          </h2>
+
+
+          <div
+            id="answerOptions"
+            class="answer-options"
+          >
+          </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+
+        <div class="assessment-navigation">
+
+          <button
+            id="previousBtn"
+            class="btn btn-secondary"
+            type="button"
+          >
+            ← Back
+          </button>
+
+
+          <button
+            id="nextBtn"
+            class="btn btn-primary"
+            type="button"
+            disabled
+          >
+            Next
+            <span>→</span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         RESULTS
+    ========================== -->
+
+    <section
+      id="resultsSection"
+      class="page-section hidden"
+    >
+
+      <div class="assessment-card results-card">
+
+        <p class="eyebrow">
+          YOUR BRANDIQ RESULT
+        </p>
+
+
+        <div class="results-hero">
+
+          <div
+            id="scoreRing"
+            class="score-ring"
+          >
+
+            <div class="score-inner">
+
+              <span
+                id="overallScore"
+                class="overall-score"
+              >
+                0
+              </span>
+
+              <span class="score-total">
+                /100
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="results-summary">
+
+            <h2 id="maturityTitle">
+              BrandIQ Result
+            </h2>
+
+            <p
+              id="maturityDescription"
+              class="body-copy"
+            >
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Key signals -->
+
+        <div class="results-grid">
+
+          <article class="result-panel">
+
+            <p class="result-label">
+              Strongest Signal
+            </p>
+
+            <h3 id="strongestSignal">
+            </h3>
+
+          </article>
+
+
+          <article class="result-panel">
+
+            <p class="result-label">
+              Biggest Growth Gap
+            </p>
+
+            <h3 id="weakestSignal">
+            </h3>
+
+          </article>
+
+
+          <article class="result-panel">
+
+            <p class="result-label">
+              GTM Readiness
+            </p>
+
+            <h3 id="gtmReadiness">
+            </h3>
+
+          </article>
+
+
+          <article class="result-panel">
+
+            <p class="result-label">
+              Brand Path
+            </p>
+
+            <h3 id="brandPath">
+            </h3>
+
+          </article>
+
+        </div>
+
+
+        <!-- Pillar results -->
+
+        <div class="pillar-section">
+
+          <div class="section-heading">
+
+            <p class="eyebrow">
+              YOUR BRAND INTELLIGENCE
+            </p>
+
+            <h2>
+              Seven Pillar Breakdown
+            </h2>
+
+          </div>
+
+
+          <div
+            id="pillarResults"
+            class="pillar-results"
+          >
+          </div>
+
+        </div>
+
+
+        <!-- Recommendation -->
+
+        <div class="next-step-card">
+
+          <p class="eyebrow">
+            RECOMMENDED NEXT MOVE
+          </p>
+
+          <h2 id="recommendationTitle">
+          </h2>
+
+          <p
+            id="recommendationDescription"
+            class="body-copy"
+          >
+          </p>
+
+
+          <div class="button-row">
+
+            <a
+              id="recommendationBtn"
+              class="btn btn-primary"
+              href="#"
+            >
+              Continue
+              <span>→</span>
+            </a>
+
+
+            <button
+              id="retakeBtn"
+              class="btn btn-secondary"
+              type="button"
+            >
+              Retake Assessment
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <p
+          id="submissionStatus"
+          class="submission-status"
+        >
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
+    <footer class="site-footer">
+
+      <span>
+        VNMIQ™
+      </span>
+
+      <span>
+        Brand Intelligence → Go-to-Market Intelligence
+      </span>
+
+    </footer>
+
+  </main>
+
+
+  <!-- JavaScript -->
+
+  <script src="./script.js"></script>
+
+</body>
+</html>
