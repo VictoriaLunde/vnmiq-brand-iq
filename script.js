@@ -9,10 +9,9 @@
 // ======================================================
 
 const CONFIG = {
-  // Existing VNMIQ Formspree endpoint
-  formspreeEndpoint: "https://formspree.io/f/xwleoapy",
+  formspreeEndpoint:
+    "https://formspree.io/f/xaewjjjr",
 
-  // Change these when the final VNMIQ pages are live
   brandBlueprintUrl:
     "https://vnmiq.com/brand-intelligence-blueprint",
 
