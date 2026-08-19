@@ -1424,116 +1424,118 @@ function renderPillarScores(
 
 
 // ======================================================
-// RECOMMENDATION ROUTING
+// RESULT RECOMMENDATION
 // ======================================================
 
-function renderRecommendation(
-  result
-) {
-
-  let title;
-  let description;
-  let buttonText;
-  let buttonUrl;
-
+function getRecommendationDetails(result) {
 
   if (
-    result.band
-      .recommendation ===
-    "gtm"
+    result.band.recommendation === "gtm"
   ) {
+    return {
+      title:
+        "Your brand is ready for a GTM stress test.",
 
-    title =
-      "Your brand is ready for a GTM stress test.";
+      description:
+        "Your BrandIQ indicates a strong strategic foundation. The next question is whether your go-to-market engine is equally prepared to turn that brand strength into demand, pipeline, customers, and revenue.",
 
+      buttonText:
+        "Take the GTM IQ Assessment",
 
-    description =
-      "Your BrandIQ indicates a strong strategic foundation. The next question is whether your go-to-market engine is equally prepared to turn that brand strength into demand, pipeline, customers, and revenue.";
-
-
-    buttonText =
-      "Take the GTM IQ Assessment →";
-
-
-    buttonUrl =
-      CONFIG.gtmIqUrl;
-
-  } else {
-
-    title =
-      "Turn your BrandIQ into an actionable brand strategy.";
-
-
-    description =
-      "Your Brand Intelligence Blueprint turns this diagnostic into a prioritized strategy covering your brand foundation, audience, positioning, messaging, identity, experience, and most important next moves.";
-
-
-    buttonText =
-      "Get My Brand Intelligence Blueprint →";
-
-
-    buttonUrl =
-      CONFIG.brandBlueprintUrl;
-
+      url:
+        CONFIG.gtmIqUrl
+    };
   }
 
+  return {
+    title:
+      "Turn your BrandIQ into an actionable brand strategy.",
 
-  get("recommendationTitle")
-    .textContent =
-      title;
+    description:
+      "Your Brand Intelligence Blueprint turns this diagnostic into a prioritized strategy covering your brand foundation, audience, positioning, messaging, identity, experience, and most important next moves.",
 
+    buttonText:
+      "Get My Brand Intelligence Blueprint",
 
-  get("recommendationDescription")
-    .textContent =
-      description;
-
-
-  get("recommendationBtn")
-    .textContent =
-      buttonText;
-
-
-  get("recommendationBtn")
-    .href =
-      buttonUrl;
-
+    url:
+      CONFIG.brandBlueprintUrl
+  };
 }
 
 
 // ======================================================
-// LOCAL STORAGE
+// CUSTOMER-FACING RESULT SUMMARY
 // ======================================================
 
-function saveResult(
-  result
-) {
+function buildResultEmailSummary(result) {
 
-  const payload =
-    buildPayload(
-      result
-    );
+  const recommendation =
+    getRecommendationDetails(result);
+
+  const scores =
+    result.categoryScores;
+
+  return `
+VNMIQ BRANDIQ™ RESULTS
+
+${state.profile.firstName}, your BrandIQ assessment is complete.
+
+BRAND
+${state.profile.brandName}
+
+BRANDIQ SCORE
+${result.overallScore}/100
+
+BRAND INTELLIGENCE LEVEL
+${result.band.title}
+
+GTM READINESS
+${result.band.gtmReadiness}
+
+STRONGEST SIGNAL
+${BRANDIQ.categoryNames[result.strongest[0]]} — ${result.strongest[1]}/100
+
+BIGGEST GROWTH GAP
+${BRANDIQ.categoryNames[result.weakest[0]]} — ${result.weakest[1]}/100
 
 
-  try {
+YOUR 7 BRANDIQ PILLARS
 
-    localStorage
-      .setItem(
-        "vnmiq_brand_iq_result",
+Brand Foundation: ${scores.foundation}/100
 
-        JSON.stringify(
-          payload
-        )
-      );
+Audience Intelligence: ${scores.audience}/100
 
-  } catch (error) {
+Positioning: ${scores.positioning}/100
 
-    console.error(
-      "Unable to save BrandIQ result locally:",
-      error
-    );
+Messaging: ${scores.messaging}/100
 
-  }
+Brand Identity: ${scores.identity}/100
 
+Brand Experience: ${scores.experience}/100
+
+Market Readiness: ${scores.market}/100
+
+
+WHAT YOUR SCORE MEANS
+
+${result.band.description}
+
+
+RECOMMENDED NEXT MOVE
+
+${recommendation.title}
+
+${recommendation.description}
+
+${recommendation.buttonText}
+
+${recommendation.url}
+
+
+Brand Intelligence → Go-to-Market Intelligence
+
+VNMIQ™
+`.trim();
 }
 
 
@@ -1541,11 +1543,13 @@ function saveResult(
 // FORM PAYLOAD
 // ======================================================
 
-function buildPayload(
-  result
-) {
+function buildPayload(result) {
+
+  const recommendation =
+    getRecommendationDetails(result);
 
   return {
+
     assessment:
       "VNMIQ BrandIQ",
 
@@ -1569,8 +1573,7 @@ function buildPayload(
 
     audienceLabel:
       getAudienceLabel(
-        state.profile
-          .audienceType
+        state.profile.audienceType
       ),
 
     brandIqScore:
@@ -1580,23 +1583,20 @@ function buildPayload(
       result.band.title,
 
     gtmReadiness:
-      result.band
-        .gtmReadiness,
+      result.band.gtmReadiness,
 
     strongestPillar:
-      BRANDIQ
-        .categoryNames[
-          result.strongest[0]
-        ],
+      BRANDIQ.categoryNames[
+        result.strongest[0]
+      ],
 
     strongestScore:
       result.strongest[1],
 
     weakestPillar:
-      BRANDIQ
-        .categoryNames[
-          result.weakest[0]
-        ],
+      BRANDIQ.categoryNames[
+        result.weakest[0]
+      ],
 
     weakestScore:
       result.weakest[1],
@@ -1604,34 +1604,42 @@ function buildPayload(
     categoryScores:
       result.categoryScores,
 
+    recommendationTitle:
+      recommendation.title,
+
+    recommendationDescription:
+      recommendation.description,
+
+    recommendationButton:
+      recommendation.buttonText,
+
+    recommendationUrl:
+      recommendation.url,
+
+    resultSummary:
+      buildResultEmailSummary(result),
+
     answers:
       state.answers,
 
     utmSource:
-      state.sourceData
-        .utmSource,
+      state.sourceData.utmSource,
 
     utmMedium:
-      state.sourceData
-        .utmMedium,
+      state.sourceData.utmMedium,
 
     utmCampaign:
-      state.sourceData
-        .utmCampaign,
+      state.sourceData.utmCampaign,
 
     utmContent:
-      state.sourceData
-        .utmContent,
+      state.sourceData.utmContent,
 
     referrer:
-      state.sourceData
-        .referrer,
+      state.sourceData.referrer,
 
     completedAt:
-      new Date()
-        .toISOString()
+      new Date().toISOString()
   };
-
 }
 
 
@@ -1639,48 +1647,26 @@ function buildPayload(
 // FORMSPREE SUBMISSION
 // ======================================================
 
-async function submitResult(
-  result
-) {
+async function submitResult(result) {
 
   const status =
-    get(
-      "submissionStatus"
-    );
-
-
-  if (
-    !CONFIG
-      .formspreeEndpoint
-  ) {
-
-    status.textContent =
-      "Your BrandIQ result is ready.";
-
-    return;
-
-  }
-
+    get("submissionStatus");
 
   status.textContent =
     "Saving your BrandIQ result...";
 
 
   const payload =
-    buildPayload(
-      result
-    );
+    buildPayload(result);
 
 
   try {
 
     const response =
       await fetch(
-        CONFIG
-          .formspreeEndpoint,
+        CONFIG.formspreeEndpoint,
         {
-          method:
-            "POST",
+          method: "POST",
 
           headers: {
             "Content-Type":
@@ -1693,14 +1679,28 @@ async function submitResult(
           body:
             JSON.stringify({
 
-              form_name:
-                "VNMIQ BrandIQ Assessment",
+              // Formspree special fields
 
-              first_name:
+              name:
                 payload.firstName,
 
               email:
                 payload.email,
+
+              subject:
+                `BrandIQ Results — ${payload.brandName}`,
+
+              message:
+                payload.resultSummary,
+
+
+              // Assessment information
+
+              assessment:
+                payload.assessment,
+
+              assessment_version:
+                payload.assessmentVersion,
 
               brand_name:
                 payload.brandName,
@@ -1711,6 +1711,9 @@ async function submitResult(
               audience_type:
                 payload.audienceLabel,
 
+
+              // Core BrandIQ Result
+
               brand_iq_score:
                 payload.brandIqScore,
 
@@ -1720,51 +1723,70 @@ async function submitResult(
               gtm_readiness:
                 payload.gtmReadiness,
 
+
+              // Strongest / weakest signals
+
               strongest_pillar:
                 `${payload.strongestPillar} (${payload.strongestScore})`,
 
               weakest_pillar:
                 `${payload.weakestPillar} (${payload.weakestScore})`,
 
-              foundation_score:
-                payload
-                  .categoryScores
-                  .foundation,
 
-              audience_score:
-                payload
-                  .categoryScores
-                  .audience,
+              // Seven pillar scores
+
+              foundation_score:
+                payload.categoryScores.foundation,
+
+              audience_intelligence_score:
+                payload.categoryScores.audience,
 
               positioning_score:
-                payload
-                  .categoryScores
-                  .positioning,
+                payload.categoryScores.positioning,
 
               messaging_score:
-                payload
-                  .categoryScores
-                  .messaging,
+                payload.categoryScores.messaging,
 
-              identity_score:
-                payload
-                  .categoryScores
-                  .identity,
+              brand_identity_score:
+                payload.categoryScores.identity,
 
-              experience_score:
-                payload
-                  .categoryScores
-                  .experience,
+              brand_experience_score:
+                payload.categoryScores.experience,
 
               market_readiness_score:
-                payload
-                  .categoryScores
-                  .market,
+                payload.categoryScores.market,
+
+
+              // Conversion routing
+
+              recommended_next_move:
+                payload.recommendationTitle,
+
+              recommendation_description:
+                payload.recommendationDescription,
+
+              recommendation_cta:
+                payload.recommendationButton,
+
+              recommendation_url:
+                payload.recommendationUrl,
+
+
+              // Complete customer-facing result
+
+              result_summary:
+                payload.resultSummary,
+
+
+              // Assessment data
 
               answers:
                 JSON.stringify(
                   payload.answers
                 ),
+
+
+              // Attribution
 
               utm_source:
                 payload.utmSource,
@@ -1781,17 +1803,17 @@ async function submitResult(
               referrer:
                 payload.referrer,
 
+
+              // Timestamp
+
               completed_at:
                 payload.completedAt
-
             })
         }
       );
 
 
-    if (
-      !response.ok
-    ) {
+    if (!response.ok) {
 
       throw new Error(
         `Form submission failed: ${response.status}`
@@ -1803,7 +1825,9 @@ async function submitResult(
     status.textContent =
       "Your BrandIQ result has been saved.";
 
-  } catch (error) {
+  }
+
+  catch (error) {
 
     console.error(
       "BrandIQ submission error:",
@@ -1813,11 +1837,8 @@ async function submitResult(
 
     status.textContent =
       "Your BrandIQ result is complete. Automatic saving could not be confirmed.";
-
   }
-
 }
-
 
 // ======================================================
 // RETAKE ASSESSMENT
